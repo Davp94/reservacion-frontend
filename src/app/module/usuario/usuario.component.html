@@ -1,1 +1,12 @@
-<p>usuario works!</p>
+<div class="w-full p-6">
+    <div class="flex justify-between items-center">
+        <h1 class="text-2xl font-semibold">
+            ADministracion de usuarios
+        </h1>
+        <button mat-flat-button (click)="createUsuario()">
+            <mat-icon>add</mat-icon>
+            Nuevo Registro
+        </button>
+    </div>
+    <app-usuario-table></app-usuario-table>
+</div>
