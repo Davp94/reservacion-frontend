@@ -1,1 +1,42 @@
-<p>usuario-form works!</p>
+<mat-card class="w-[500px] p-4">
+    <mat-card-header>
+        <mat-card-title>Usuario</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <form [formGroup]="usuariosForm" class="grid grid-cols-2 gap-4 mt-2">
+            <mat-form-field>
+                <mat-label>Nombres</mat-label>
+                <input matInput placeholder="Nombres del usuario" formControlName="nombres">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Apellidos</mat-label>
+                <input matInput placeholder="Nombres del usuario" formControlName="apellidos">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Username</mat-label>
+                <input matInput placeholder="Nombres del usuario" formControlName="username">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Password</mat-label>
+                <input matInput placeholder="Nombres del usuario" formControlName="password">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Correo</mat-label>
+                <input matInput placeholder="Nombres del usuario" formControlName="correo">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Estado</mat-label>
+                <mat-select formControlName="estado">
+                    @for (state of states; track state) {
+                    <mat-option [value]="state.key">{{state.value}}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+            <div></div>
+        </form>
+        <mat-card-actions>
+            <button mat-button [mat-dialog-close]="false">Cancelar</button>
+            <button mat-flat-button (click)="onSubmit()">Guardar</button>
+        </mat-card-actions>
+    </mat-card-content>
+</mat-card>
