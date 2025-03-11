@@ -1,1 +1,36 @@
-<p>usuario-view works!</p>
+<mat-card class="w-auto p-4">
+    <mat-card-header>
+        <mat-card-title>Datos Usuario</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <div class="grid grid-cols-2 gap-4 mt-2">
+            <label>
+                <strong>Nombre: </strong>
+                {{ usuario.nombres }}
+            </label>
+            <label>
+                <strong>Apellidos: </strong>
+                {{ usuario.apellidos  }}
+            </label>
+            <label>
+                <strong>Username: </strong>
+                {{ usuario.username }}
+            </label>
+            <label>
+                <strong>Correo: </strong>
+                {{ usuario.correo }}
+            </label>
+    
+            <label>
+                <strong>Estado: </strong>
+                {{ usuario.estado | state }}
+            </label>
+        </div>
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-button [mat-dialog-close]="false">Cancelar</button>
+        @if (operation == operationEnum.DELETE) {
+            <button mat-button (click)="eliminar(usuario.id)">Eliminar</button>
+        }
+    </mat-card-actions>
+</mat-card>

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import {MatInputModule} from '@angular/material/input';
@@ -17,7 +17,7 @@ import { StateEnum } from '../../../shared/enum/state.enum';
   templateUrl: './usuario-form.component.html',
   styleUrl: './usuario-form.component.scss'
 })
-export class UsuarioFormComponent {
+export class UsuarioFormComponent implements OnInit{
 
   usuariosForm: FormGroup;
   states: StateDto[];
@@ -39,6 +39,13 @@ export class UsuarioFormComponent {
       estado: 0
     })
     this.states = stateValues;
+  }
+
+  ngOnInit(): void {
+    if(this.data){
+      console.log("🚀 ~ UsuarioFormComponent ~ ngOnInit ~ this.data:", this.data)
+      this.usuariosForm.patchValue(this.data);
+    } 
   }
 
   onSubmit() {
