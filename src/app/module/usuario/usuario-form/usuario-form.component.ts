@@ -11,6 +11,7 @@ import {MatSelectModule} from '@angular/material/select';
 import { StateDto } from '../../../shared/dto/state.dto';
 import { stateValues } from '../../../shared/constant/state.values';
 import { StateEnum } from '../../../shared/enum/state.enum';
+import { UsuarioDto } from '../../../core/dto/usuario/usuario.dto';
 @Component({
   selector: 'app-usuario-form',
   imports: [CommonModule, MatButtonModule, MatDialogModule, MatInputModule, MatFormFieldModule, ReactiveFormsModule,MatCardModule, MatSelectModule],
@@ -25,7 +26,7 @@ export class UsuarioFormComponent implements OnInit{
 
   constructor(
     private formBuilder: FormBuilder, 
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: UsuarioDto,
     private dialogRef: MatDialogRef<UsuarioFormComponent>,
     private usuarioService: UsuarioService
   ){
@@ -51,8 +52,9 @@ export class UsuarioFormComponent implements OnInit{
   onSubmit() {
     if(this.usuariosForm.valid){
       if(this.data){
-        this.usuarioService.updateUsuario(this.usuariosForm.value).subscribe({
-          next: (res: any) => {
+        const id = this.usuariosForm.controls['id'].value;
+        this.usuarioService.updateUsuario(id, this.usuariosForm.value).subscribe({
+          next: (res: UsuarioDto) => {
             this.usuariosForm.reset();
             this.dialogRef.close(true);
           },
@@ -62,7 +64,7 @@ export class UsuarioFormComponent implements OnInit{
         })
       } else {
         this.usuarioService.createUsuario(this.usuariosForm.value).subscribe({
-          next: (res: any) => {
+          next: (res: UsuarioDto) => {
             this.usuariosForm.reset();
             this.dialogRef.close(true);
           },

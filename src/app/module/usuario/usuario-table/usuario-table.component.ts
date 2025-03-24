@@ -10,6 +10,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { UsuarioFormComponent } from '../usuario-form/usuario-form.component';
 import { UsuarioViewComponent } from '../usuario-view/usuario-view.component';
 import { StatePipe } from '../../../shared/pipe/state.pipe';
+import { UsuarioDto } from '../../../core/dto/usuario/usuario.dto';
 @Component({
   selector: 'app-usuario-table',
   imports: [CommonModule, MatPaginatorModule, MatTableModule, MatButtonModule, MatIconModule, MatDialogModule, StatePipe],
@@ -19,7 +20,7 @@ import { StatePipe } from '../../../shared/pipe/state.pipe';
 export class UsuarioTableComponent implements AfterViewInit, OnInit {
 
   displayedColumns: string[] = ['id', 'nombres', 'apellidos', 'username', 'password', 'correo', 'estado', 'acciones'];
-  dataSource = new MatTableDataSource<any>();
+  dataSource = new MatTableDataSource<UsuarioDto>();
   operation: typeof OperationEnum = OperationEnum;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -33,7 +34,7 @@ export class UsuarioTableComponent implements AfterViewInit, OnInit {
 
   loadUsuarios() {
     this.usuarioService.getUsuarios().subscribe({
-      next: (res: any) => this.dataSource.data = res,
+      next: (res: UsuarioDto[]) => this.dataSource.data = res,
     })
   }
 
@@ -41,7 +42,7 @@ export class UsuarioTableComponent implements AfterViewInit, OnInit {
     this.dataSource.paginator = this.paginator;
   }
 
-  openDialog(operation: OperationEnum, data: any){
+  openDialog(operation: OperationEnum, data: UsuarioDto){
     switch (operation) {
       case OperationEnum.UPDATE: {
         const dialogRef = this.matDialog.open(UsuarioFormComponent, {

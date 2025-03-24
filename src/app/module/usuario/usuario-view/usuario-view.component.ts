@@ -6,6 +6,8 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { OperationEnum } from '../../../shared/enum/operation.enum';
 import { UsuarioService } from '../../../core/service/usuario.service';
 import { StatePipe } from '../../../shared/pipe/state.pipe';
+import { UsuarioDto } from '../../../core/dto/usuario/usuario.dto';
+import { UsuarioDataDto } from '../../../shared/dto/usuario/usuario-data.dto';
 
 @Component({
   selector: 'app-usuario-view',
@@ -15,12 +17,12 @@ import { StatePipe } from '../../../shared/pipe/state.pipe';
 })
 export class UsuarioViewComponent {
 
-  usuario: any;
+  usuario: UsuarioDto;
   operation: OperationEnum;
   operationEnum: typeof OperationEnum = OperationEnum;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: UsuarioDataDto,
     private dialogRef: MatDialogRef<UsuarioViewComponent>,
     private usuarioService: UsuarioService
   ){

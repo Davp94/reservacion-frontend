@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { UsuarioRequestDto } from '../dto/usuario/usuario.request.dto';
+import { UsuarioDto } from '../dto/usuario/usuario.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -9,23 +11,23 @@ export class UsuarioService {
 
   constructor(private httpClient: HttpClient) { }
 
-  createUsuario(usuario: any): Observable<any> {
-    return this.httpClient.post<any>("http://localhost:3000/usuario", usuario);
+  createUsuario(usuario: UsuarioRequestDto): Observable<UsuarioDto> {
+    return this.httpClient.post<UsuarioDto>("http://localhost:3000/usuario", usuario);
   }
 
-  getUsuarios(): Observable<any> {
-    return this.httpClient.get<any>("http://localhost:3000/usuario");
+  getUsuarios(): Observable<UsuarioDto[]> {
+    return this.httpClient.get<UsuarioDto[]>("http://localhost:3000/usuario");
   }
 
-  getUsuarioById(id: number): Observable<any> {
-    return this.httpClient.get<any>(`http://localhost:3000/usuario/${id}`);
+  getUsuarioById(id: number): Observable<UsuarioDto> {
+    return this.httpClient.get<UsuarioDto>(`http://localhost:3000/usuario/${id}`);
   }
 
-  updateUsuario(usuario: any): Observable<any> {
-    return this.httpClient.put<any>("http://localhost:3000/usuario", usuario);
+  updateUsuario(id: number, usuario: UsuarioRequestDto): Observable<UsuarioDto> {
+    return this.httpClient.put<UsuarioDto>(`http://localhost:3000/usuario/${id}`, usuario);
   }
 
-  deleteUsuario(id: number): Observable<any> {
-    return this.httpClient.delete<any>(`http://localhost:3000/usuario/${id}`);
+  deleteUsuario(id: number): Observable<void> {
+    return this.httpClient.delete<void>(`http://localhost:3000/usuario/${id}`);
   }
 }
