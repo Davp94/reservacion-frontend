@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
+import { CommonModule, Location } from '@angular/common';
+import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import {MatInputModule} from '@angular/material/input';
@@ -26,9 +26,10 @@ export class UsuarioFormComponent implements OnInit{
 
   constructor(
     private formBuilder: FormBuilder, 
-    @Inject(MAT_DIALOG_DATA) public data: UsuarioDto,
-    private dialogRef: MatDialogRef<UsuarioFormComponent>,
-    private usuarioService: UsuarioService
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: UsuarioDto,
+    @Optional() private dialogRef: MatDialogRef<UsuarioFormComponent>,
+    private usuarioService: UsuarioService,
+    private localtion: Location,
   ){
     this.usuariosForm = this.formBuilder.group({
       id: [0],
@@ -66,13 +67,26 @@ export class UsuarioFormComponent implements OnInit{
         this.usuarioService.createUsuario(this.usuariosForm.value).subscribe({
           next: (res: UsuarioDto) => {
             this.usuariosForm.reset();
-            this.dialogRef.close(true);
+            if(this.dialogRef){
+              this.dialogRef.close(true);
+            }else {
+              this.localtion.back();
+            }
           },
           error: (err: any) => {
             console.log(err);
           }
         })
       }
+    }
+  }
+
+  cancelar() {
+    console.log("🚀 ~ UsuarioFormComponent ~ cancelar ~ this.dialogRef:", this.dialogRef)
+    if(this.dialogRef){
+      this.dialogRef.close(false);
+    }else {
+      this.localtion.back();
     }
   }
 

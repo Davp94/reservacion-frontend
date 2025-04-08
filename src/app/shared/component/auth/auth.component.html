@@ -1,1 +1,27 @@
-<p>auth works!</p>
+<div class="mat-elevation-z8 h-screen w-full flex items-center justify-center">
+    <mat-card class="mat-elevation-z6 w-[500px]">
+        <mat-card-header>
+            <mat-card-title>LOGIN</mat-card-title>
+            <mat-card-subtitle>Ingrese sus credenciales para acceder al sistema</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <form class="grid grid-cols-1 gap-4 mt-3">
+                <mat-form-field>
+                    <mat-label>username</mat-label>
+                    <input matInput type="text" placeholder="username" [(ngModel)]="username" name="username">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>password</mat-label>
+                    <input matInput type="password" placeholder="password" [(ngModel)]="password" name="password">
+                </mat-form-field>
+                <div>
+                    No tiene una cuenta <a [routerLink]="['/nuevo-registro']">Registrarse</a>
+                </div>
+               
+            </form>
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-flat-button color="primary" (click)="loginUser()">INGRESAR</button>
+        </mat-card-actions>
+    </mat-card>
+</div>
