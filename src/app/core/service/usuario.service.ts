@@ -3,12 +3,14 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UsuarioRequestDto } from '../dto/usuario/usuario.request.dto';
 import { UsuarioDto } from '../dto/usuario/usuario.dto';
+import { environment } from '../../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsuarioService {
 
+  apiUrl = environment.API_URL;
   constructor(private httpClient: HttpClient) { }
 
   createUsuario(usuario: UsuarioRequestDto): Observable<UsuarioDto> {

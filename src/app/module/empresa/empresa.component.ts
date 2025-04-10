@@ -1,6 +1,10 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, inject, OnInit } from '@angular/core';
 import { UsuarioService } from '../../core/service/usuario.service';
 import { CommonModule } from '@angular/common';
+import { EmpresaService } from '../../core/service/empresa.service';
+import { EmpresaDto } from '../../core/dto/empresa.dto';
+import { ResStore } from '../../state-management/state.store';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-empresa',
@@ -10,27 +14,33 @@ import { CommonModule } from '@angular/common';
 })
 export class EmpresaComponent implements OnInit, AfterViewInit {
 
-  usuarios: any = [];
+  empresas: EmpresaDto[] = [];
+  store = inject(ResStore);
 
-  constructor(private usuarioService: UsuarioService){
+  constructor(private empresaService: EmpresaService, private router: Router){
     console.log('EXECUTING CONSTRUCTOR')
   }
 
-  getUsuarios() {
-    this.usuarioService.getUsuarios().subscribe({
-      next: (res: any) => this.usuarios = res,
+  getEmpresas() {
+    this.empresaService.getEmpresas().subscribe({
+      next: (res: EmpresaDto[]) => this.empresas = res,
       error: (err: any) => console.log(err),
       complete: () => console.log('completed observable')
     });
   }
 
   ngOnInit(): void {
-    this.getUsuarios();
+    this.getEmpresas();
     console.log('EXECUTING ON INIT')
   }
 
   ngAfterViewInit(): void {
     console.log('EXECUTING AFTER VIEW INIT')
+  }
+
+  selectEmpresa(empresa: EmpresaDto){
+    this.store.addEmpresa(empresa);
+    this.router.navigateByUrl('/horario');
   }
 
 
