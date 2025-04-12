@@ -5,6 +5,8 @@ import { CalendarOptions } from '@fullcalendar/core/index.js';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { HorarioService } from '../../../core/service/horario.service';
 import { ResStore } from '../../../state-management/state.store';
+import { HorarioDto } from '../../../core/dto/horario.dto';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-calendario',
@@ -14,7 +16,7 @@ import { ResStore } from '../../../state-management/state.store';
 })
 export class CalendarioComponent implements OnInit{
   store = inject(ResStore);
-  horarios: any = [];
+  horarios: HorarioDto[] = [];
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
     plugins: [dayGridPlugin],
@@ -26,7 +28,7 @@ export class CalendarioComponent implements OnInit{
     dateClick: this.handleClick.bind(this),
   };
 
-  constructor(private horarioService: HorarioService){
+  constructor(private horarioService: HorarioService, private router: Router){
   }
   ngOnInit(): void {
     this.getHorarios();
@@ -34,7 +36,7 @@ export class CalendarioComponent implements OnInit{
 
   getHorarios(){
     this.horarioService.getHorarios(this.store.empresa()?.id as number).subscribe({
-      next: (res: any) => {
+      next: (res: HorarioDto[]) => {
         this.horarios = res
         this.markHorariosCalendar(res);
       },
@@ -42,7 +44,7 @@ export class CalendarioComponent implements OnInit{
     })
   }
 
-  markHorariosCalendar(horarios: any){
+  markHorariosCalendar(horarios: HorarioDto[]){
     const event = horarios.map(horario => ({
       title: 'Horario',
       start: horario.fecha,
@@ -58,7 +60,11 @@ export class CalendarioComponent implements OnInit{
   }
 
   handleClick(event: any){
-  
+    console.log(event);
+
+    const horariosFiltered = this.horarios.filter(hor=>hor.fecha == event.fecha);
+    this.store.addHorarios(horariosFiltered);
+    this.router.navigateByUrl('/reservar');
   }
 
 }

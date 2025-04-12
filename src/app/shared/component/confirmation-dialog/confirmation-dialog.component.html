@@ -1,0 +1,8 @@
+<div class="flex flex-col w-[500px] h-50 gap-2 justify-center p-4">
+    <h1> {{ data.title ?? 'Confirmar Accion' }}</h1>
+    <h5> {{ data.subtitle ?? '¿Esta seguro de confirmar la operacion?' }}</h5>
+    <div>
+        <button mat-button (click)="closeDialog()">CANCELAR</button>
+        <button mat-button (click)="confirmAction()">{{ data.confirmationText ?? 'CONFIRMAR'}}</button>
+    </div>
+</div>
