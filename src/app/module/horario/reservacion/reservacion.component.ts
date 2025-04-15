@@ -28,6 +28,7 @@ export class ReservacionComponent implements OnInit{
   
   ngOnInit(): void {
     this.horarios = this.store.horarios();
+    console.log("🚀 ~ ReservacionComponent ~ ngOnInit ~ this.horarios:", this.horarios)
   }
 
   realizarReservacion(horario: HorarioDto){
@@ -40,7 +41,7 @@ export class ReservacionComponent implements OnInit{
           usuarioId: this.store.userData()?.id as number
         }
         this.reservacionService.createReservacion(dataReservacion).subscribe({
-          next : (res: ReservacionDto) => this.router.navigateByUrl('/reservaciones'),
+          next : (res: ReservacionDto) => this.router.navigateByUrl('/horario/reservaciones'),
           error: (err:any) => console.log(err)
         })
       }

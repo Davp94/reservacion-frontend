@@ -1,2 +1,28 @@
-<p>empresa works!</p>
-<p>{{ usuarios | json }}</p>
+<div class="mat-elevation-z8 h-screen w-full flex items-center justify-center">
+    <!--Lista de horarios de la fecha seleccionada-->
+    <div class="grid grid-cols-3 gap-4">
+      @for (empresa of empresas; track empresa.id) {
+        <mat-card class="mat-elevation-z6 w-[500px]">
+          <mat-card-header>
+            <mat-card-title>
+              Empresa {{ empresa.nombre }}
+            </mat-card-title>
+            <mat-card-subtitle>Ver horarios disponible para reserva</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <label>{{empresa.logo}}</label>
+            <label>{{empresa.razon_social}}</label>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-raised-button color="primary" (click)="selectEmpresa(empresa)">RESERVAR</button>
+          </mat-card-actions>
+        </mat-card>
+      }
+    </div>
+  
+    <!--Cuadro de confirmacion-->
+    <div>
+  
+    </div>
+  </div>
+  

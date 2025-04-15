@@ -17,6 +17,7 @@ export class ReservacionService {
 
     
     getReservacionesPagination(paginationFilterRequestDto: PaginationFilterRequestDto): Observable<PaginationDto<ReservacionDto>> {
+       console.log("🚀 ~ ReservacionService ~ getReservacionesPagination ~ paginationFilterRequestDto:", paginationFilterRequestDto)
        const params: HttpParams = new HttpParams();
        params.append('page', paginationFilterRequestDto.page+'');
        params.append('take', paginationFilterRequestDto.take+'');
@@ -24,7 +25,7 @@ export class ReservacionService {
        params.append('sortBy', paginationFilterRequestDto.sortBy+'');
        params.append('filter', paginationFilterRequestDto.filter+'');
        params.append('filterBy', paginationFilterRequestDto.filterBy+'');
-        return this.httpClient.get<PaginationDto<ReservacionDto>>(`${this.apiUrl}/reservacion/page`, {params: params});
+        return this.httpClient.post<PaginationDto<ReservacionDto>>(`${this.apiUrl}/reservacion/page`, paginationFilterRequestDto);
     }
 
     generateReportReservaciones(usuarioId: number): Observable<Blob>{

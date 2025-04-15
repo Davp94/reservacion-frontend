@@ -8,6 +8,7 @@ import { HorarioComponent } from './module/horario/horario.component';
 import { CalendarioComponent } from './module/horario/calendario/calendario.component';
 import { ReservacionViewComponent } from './module/horario/reservacion-view/reservacion-view.component';
 import { ReservacionComponent } from './module/horario/reservacion/reservacion.component';
+import { EmpresaComponent } from './module/empresa/empresa.component';
 
 export const routes: Routes = [
   {
@@ -15,6 +16,10 @@ export const routes: Routes = [
     component: MainComponent,
     canActivate: [authGuard],
     children: [
+      {
+        path: '',
+        component: EmpresaComponent
+      },
       {
         path: 'usuario',
         component: UsuarioComponent,

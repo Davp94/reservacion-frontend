@@ -5,10 +5,12 @@ import { EmpresaService } from '../../core/service/empresa.service';
 import { EmpresaDto } from '../../core/dto/empresa.dto';
 import { ResStore } from '../../state-management/state.store';
 import { Router } from '@angular/router';
+import { MatCardMdImage, MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-empresa',
-  imports: [CommonModule],
+  imports: [CommonModule, MatCardModule, MatButtonModule],
   templateUrl: './empresa.component.html',
   styleUrl: './empresa.component.scss'
 })

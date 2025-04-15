@@ -3,6 +3,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { CalendarOptions } from '@fullcalendar/core/index.js';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
 import { HorarioService } from '../../../core/service/horario.service';
 import { ResStore } from '../../../state-management/state.store';
 import { HorarioDto } from '../../../core/dto/horario.dto';
@@ -19,13 +20,13 @@ export class CalendarioComponent implements OnInit{
   horarios: HorarioDto[] = [];
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
-    plugins: [dayGridPlugin],
+    plugins: [dayGridPlugin, interactionPlugin],
     headerToolbar: {
       left: 'prev,next today'
     },
     events: [],
     eventClick: this.handleEventClick.bind(this),
-    dateClick: this.handleClick.bind(this),
+    dateClick: this.dateClickEvent.bind(this),
   };
 
   constructor(private horarioService: HorarioService, private router: Router){
@@ -56,15 +57,38 @@ export class CalendarioComponent implements OnInit{
   }
 
   handleEventClick(event: any){
+    console.log("🚀 ~ CalendarioComponent ~ handleEventClick ~ event:", event)
 
   }
 
-  handleClick(event: any){
-    console.log(event);
+  countHorariosByFecha(date: Date){
+    const formatedDate = this.formatDate(date);
+    console.log("🚀 ~ CalendarioComponent ~ countHorariosByFecha ~ formatedDate:", formatedDate)
+    const countHorariosByDate = this.horarios.filter( horario => {
+      const formattedHorario = horario.fecha.substring(0, 10);
+      console.log("🚀 ~ CalendarioComponent ~ countHorariosByFecha ~ formattedHorario:", formattedHorario)
+      return formatedDate === formattedHorario
+    }).length
+    return countHorariosByDate
+  }
 
-    const horariosFiltered = this.horarios.filter(hor=>hor.fecha == event.fecha);
-    this.store.addHorarios(horariosFiltered);
-    this.router.navigateByUrl('/reservar');
+  formatDate(date: Date): string{
+    return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`;
+  }
+
+  dateClickEvent(event: any){
+    console.log(event.date);
+    const fechasDisponibles = this.countHorariosByFecha(event.date);
+    if(fechasDisponibles > 0){
+      const horariosFiltered = this.horarios.filter(hor=>{
+        return hor.fecha.substring(0, 10) == this.formatDate(event.date)
+      });
+      console.log("🚀 ~ CalendarioComponent ~ dateClickEvent ~ horariosFiltered:", horariosFiltered)
+      this.store.addHorarios(horariosFiltered);
+      this.router.navigateByUrl('/horario/reservar');
+    }else {
+      console.log('No existen fechas disponivles para realizar la reservacion')
+    }
   }
 
 }
