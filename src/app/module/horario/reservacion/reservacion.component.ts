@@ -24,7 +24,7 @@ export class ReservacionComponent implements OnInit{
   constructor(private horarioService: HorarioService, 
     private reservacionService: ReservacionService, 
     private matDialog: MatDialog,
-  private router: Router){}
+    private router: Router){}
   
   ngOnInit(): void {
     this.horarios = this.store.horarios();

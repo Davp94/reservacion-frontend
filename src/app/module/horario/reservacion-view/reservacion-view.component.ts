@@ -17,6 +17,8 @@ import { ReservacionDto } from '../../../core/dto/reservacion.dto';
 import { MatSort, Sort } from '@angular/material/sort';
 import { PaginationFilterRequestDto } from '../../../core/dto/paginationFilterReq.dto';
 import { PaginationDto } from '../../../core/dto/paginationDto';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ReservacionSocketService } from '../../../core/service/reservacion-socket.service';
 @Component({
   selector: 'app-reservacion-view',
   imports: [
@@ -42,7 +44,10 @@ export class ReservacionViewComponent implements OnInit, AfterViewInit {
   paginationRequestDto: PaginationFilterRequestDto;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(private reservacionService: ReservacionService) {
+  constructor(private reservacionService: ReservacionService,
+       private reservacionSocketService: ReservacionSocketService,
+       private snackBar: MatSnackBar,
+  ) {
     this.paginationRequestDto = {
       page: 1,
       take: 10,
@@ -54,7 +59,15 @@ export class ReservacionViewComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.loadReservaciones();
+     this.reservacionSocketService.getReservacionNotificacion().subscribe(
+          {next: reservacion => {
+            console.log('RESERVACION FROM SOCKET', reservacion)
+            this.snackBar.open('RESERVACION CREADA', 'CERRAR', {
+              duration: 3000
+            })
+          }}
+        )
+    //this.loadReservaciones();
   }
 
   loadReservaciones() {
